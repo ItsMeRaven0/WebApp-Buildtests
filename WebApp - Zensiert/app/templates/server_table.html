@@ -1,0 +1,34 @@
+{% extends "table_base.html" %}
+
+{% block content %}
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Buildserver</th>
+        <th>Build-ID</th>
+        <th>Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    let buildservername = window.location.pathname.split('/');
+    $(document).ready(function () {
+      $('#data').DataTable({
+        ajax: `/api/data?buildservername=${buildservername[1]}`,
+        serverSide: true,
+        columns: [
+          {data: 'buildserver'},
+          {data: 'buildid'},
+          {data: 'date', orderable: false},
+          {data: 'status'}
+        ],
+      });
+    });
+  </script>
+{% endblock %}
